@@ -9,6 +9,8 @@ def main():
             sprinklers = []
             for _ in range(N):
                 x, r = map(float, input().split())
+                if r <= w/2:
+                    continue
                 if w/2 > r:
                     h, s_1 = w/2, r
                 else:
@@ -22,25 +24,22 @@ def main():
             no_of_sprinklers = 0
             sprinkler_index = 0
             start = 0
-            while sprinkler_index < len(sprinklers) and start < l:
+            while sprinkler_index < len(sprinklers):
+                if start >= l:
+                    break
                 best_sprinkler = (0,0)
-                # print(f"start = {start}")
-                # print(f"sprinkler = {sprinklers[sprinkler_index]}")
-                while sprinklers[sprinkler_index][0] <= start and sprinklers[sprinkler_index][1] > start:
+                while sprinkler_index < len(sprinklers) and sprinklers[sprinkler_index][0] <= start:
                     if sprinklers[sprinkler_index][1] > best_sprinkler[1]:
                         best_sprinkler = sprinklers[sprinkler_index]
                     sprinkler_index += 1
-                    if sprinkler_index >= len(sprinklers):
-                        break
                 if best_sprinkler == (0,0):
                     sprinkler_index += 1
                 else:
                     no_of_sprinklers += 1
                     start = best_sprinkler[1]
-            if no_of_sprinklers == 0:
-                print(-1)
-            else:
-                print(no_of_sprinklers)
+            if no_of_sprinklers == 0 or start < l:
+                no_of_sprinklers = -1
+            print(no_of_sprinklers)
     except EOFError as err:
         exit()
 
